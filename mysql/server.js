@@ -3,26 +3,62 @@ const app = express();
 const mysql = require('mysql');
 const crud = require('./crud.js')
 const BodyParse = require('body-parser'); 
+const multer = require('multer');
+var session = require('express-session')
+
+var cookieParser = require('cookie-parser')
+
+app.use(cookieParser());
+
+app.use(session({
+  secret: 'i am advance cookies'
+}));
+
+
 
 app.use(BodyParse.json())
+
+app.use(BodyParse.urlencoded({extended: true})) //
+
+app.use(multer().array()) // form data
+
+
+
+app.get('/login', (req, res) => {
+ 
+  const {u, p} = req.query;
+  if( u == 'blr' && p == '123') {
+    req.session.token = true;
+    res.cookie("login", "success")
+    res.send("success");
+
+  } else {
+    res.send("invalid")
+  }
+  
+
+});
+
+
+
+
 
 
 // router creating process
 app.use('/crud', crud);
 
 
-
 // global and custom middleware
-app.use( '/students' ,(req, res, next) => {
-  console.log("i am global middleware", req.url, req.query);
- const { name } = req.query;
- if(name === 'mob') {
-  next();
- } else {
-   res.json({error: 'i am invalid user'})
- }
- 
-});
+// app.use( '/students' ,(req, res, next) => {
+//  const { name } = req.query;
+//  if(name === 'mob') {
+//   next();
+//  } else {
+//    res.json({error: 'i am invalid user'})
+//  }
+// });
+
+
 app.use('/photos', express.static('images'));
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -44,7 +80,20 @@ app.get('/', (req, res) => {
   res.send({name: 'mobiotics'})
 });
 
+app.get('/logout', (req, res) => {
+
+  req.session.destroy(() => {
+    res.send("destroy")
+  })
+
+});
+
 app.get('/students', (req, res) => {
+    console.log("session", req.session)
+    if(!req.session.token) {
+      res.send("not valid");
+      return;
+    }
   const sql = 'select * from user_details';
   connection.query(sql, (err, row) => {
     if(err) {
@@ -89,14 +138,19 @@ app.get('/student/:single/:gender', (req, res) => {
         res.status(400);
         res.send({status: 'not updated'})
       }
-
-
-
-      
       res.status(200);
       res.send({status: 'success'})
     })
 
+  });
+
+
+  app.post('/home', (req, res) => {
+
+     console.log(req.body)
+
+    res.write(`<h1 style='color: red'>i am reached</h1>`);
+    res.end();
 
   });
 
