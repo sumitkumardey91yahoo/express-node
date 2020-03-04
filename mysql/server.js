@@ -8,6 +8,11 @@ var session = require('express-session')
 
 var cookieParser = require('cookie-parser')
 
+var cors = require('cors')
+
+app.use(cors())
+
+
 app.use(cookieParser());
 
 app.use(session({
@@ -90,10 +95,10 @@ app.get('/logout', (req, res) => {
 
 app.get('/students', (req, res) => {
     console.log("session", req.session)
-    if(!req.session.token) {
-      res.send("not valid");
-      return;
-    }
+    // if(!req.session.token) {
+    //   res.send("not valid");
+    //   return;
+    // }
   const sql = 'select * from user_details';
   connection.query(sql, (err, row) => {
     if(err) {

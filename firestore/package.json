@@ -1,0 +1,17 @@
+{
+  "name": "firestore",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@firebase/app": "^0.5.4",
+    "@firebase/firestore": "^1.11.1",
+    "express": "^4.17.1"
+  }
+}

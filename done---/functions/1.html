@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+
+ async function a() {
+ 
+ 	let url = 'https://sumit-kumar-dey.firebaseapp.com/emp';
+        let response = await fetch(url);
+
+        let commits = await response.json(); // read response body and parse as JSON
+
+        console.log(commits);
+        
+        }
+        a();
+</script>
+
+</html>

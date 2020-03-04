@@ -10,7 +10,6 @@ const router = express.Router();  // express()
 
 
 
-
 router.get('/movie', (req, res) => {
 
   console.log(req.headers.auth)
