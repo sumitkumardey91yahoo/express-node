@@ -1,19 +1,16 @@
 const req = require('request');
 
-req('https://geo.cloud.altbalaji.com/location/', (err, request, res) => {
+req('https://geo.cloud.altbalaji.com/location/', (err, header, body) => {
 
-    if(err) {
-        return;
-    }
-    console.log(request.statusCode)
-   
-   var a = JSON.parse(res);
+  console.log("header", header.statusCode)
 
-   a.city.names.en = "chennai";
+  // console.log("header", typeof body)
+
+  const parse = JSON.parse(body)
+
+  console.log(parse.city.names)
 
 
-   console.log(a)
-     
 
 
 })
